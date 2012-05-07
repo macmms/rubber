@@ -28,7 +28,9 @@ module Rubber
                                                     :flavor_id => ami_type,
                                                     :groups => security_groups,
                                                     :availability_zone => availability_zone,
-                                                    :key_name => env.key_name)
+                                                    :key_name => env.key_name,
+                                                    :vpc_id => env.vpc_id,
+                                                    :subnet_id => env.subnet_id)
         instance_id = response.id
         return instance_id
       end
@@ -39,9 +41,7 @@ module Rubber
                                                           :flavor_id => ami_type,
                                                           :groups => security_groups,
                                                           :availability_zone => availability_zone,
-                                                          :key_name => env.key_name,
-                                                          :vpc_id => env.vpc_id,
-                                                          :subnet_id => env.subnet.id)
+                                                          :key_name => env.key_name)
         request_id = response.id
         return request_id
       end
@@ -61,7 +61,7 @@ module Rubber
           instance[:internal_host] = item.private_dns_name
           instance[:internal_ip] = item.private_ip_address
           instance[:state] = item.state
-          instance[:zone] = item.availability_zone
+          instance[:zone] = item.availability_zone  
           instance[:platform] = item.platform || 'linux'
           instance[:root_device_type] = item.root_device_type
           instances << instance
